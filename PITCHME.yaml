@@ -6,3 +6,5 @@ footnote : shinseitaro
 slide-number: true
 # レイアウト
 layout : top-left
+# 遷移方法
+transition : none
