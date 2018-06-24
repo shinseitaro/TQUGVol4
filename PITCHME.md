@@ -27,5 +27,25 @@ shinseitaro
   + クラッシュスプレッド
   + カレンダースプレッド
   + その他
+---
+### 資料
+
+[http://bit.ly/TQUG-004](http://bit.ly/TQUG-004)
+
 
 ---
+### Quantopian Algorithmの書き方 基本編
+---
+### 先物編
+---
+### バックテスト結果の見方 Build Algorithm
+---
+### Full Backtest
+---
+### Tear Sheet
+--- 
+### Future Algorithm クラッシュスプレッド
+---
+### カレンダースプレッド
+--- 
+### その他
