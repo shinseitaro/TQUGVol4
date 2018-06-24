@@ -3,7 +3,9 @@ shinseitaro
 
 ---
 ### 自己紹介
-[しんせいたろう🐷(@shinseitaro) | Twitter](https://twitter.com/shinseitaro "しんせいたろう🐷(@shinseitaro)さん | Twitter")
+
+[しんせいたろう🐷(@shinseitaro)](https://twitter.com/shinseitaro "しんせいたろう🐷(@shinseitaro)さん | Twitter")
+
 個人トレーダー
 
 ---
@@ -25,6 +27,5 @@ shinseitaro
   + クラッシュスプレッド
   + カレンダースプレッド
   + その他
-
 
 ---
