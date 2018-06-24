@@ -4,3 +4,5 @@ theme : night
 footnote : shinseitaro 
 # スライドページ数表示
 slide-number: true
+# レイアウト
+layout : top-right
