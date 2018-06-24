@@ -35,6 +35,17 @@ shinseitaro
 
 ---
 ### Quantopian Algorithmの書き方 基本編
+
+```python
+def initialize(context):
+    ## 原油２０１７年１月限 (10/01/2016~12/20/2016)
+    context.my_future = future_symbol("CLF17")
+    schedule_function(my_rebalance, 
+                      date_rule=date_rules.every_day(), 
+                      time_rule=time_rules.market_open(hours=1))
+
+
+```
 ---
 ### 先物編
 ---
