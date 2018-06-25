@@ -1,20 +1,21 @@
-### Tokyo Quantopian User Group Vol 4
+# Tokyo Quantopian User Group Vol 4
 shinseitaro
 
 ---
-### 自己紹介
+## 自己紹介
 
 [しんせいたろう(@shinseitaro)](https://twitter.com/shinseitaro)
 
 個人トレーダー
 
 ---
-### コミュニティ
+## コミュニティ
+
   + 主催：Tokyo Quantopian User Group / 月刊フィントーク / モグモグDjango
   + スタッフ：GtugGirls / オプション勉強会
 
 ---
-### 今日の予定
+## 今日の予定
 
 1. Quantopian Algorithmの書き方
   + 基本編
@@ -38,11 +39,12 @@ shinseitaro
   + カレンダースプレッド
   + その他
 ---
-### 資料
-[http://bit.ly/TQUG-004](http://bit.ly/TQUG-004)
----
+## 資料
 
-### Quantopian Algorithmの書き方 基本編
+[http://bit.ly/TQUG-004](http://bit.ly/TQUG-004)
+
+---
+## Quantopian Algorithmの書き方 基本編
 
 [ここにClone先のリンクを張る．]()
 
@@ -76,7 +78,7 @@ def initialize(context):
                       time_rule=time_rules.market_open(hours=1))
 ```
 ---
-スケジューラー
+### スケジューラー
 
 ```schedule_function()```
 
@@ -93,7 +95,7 @@ def initialize(context):
 
 ---
 
-一代足
+### 一代足
 
 ```python
     ## 原油２０１７年１月限 (10/01/2016~12/20/2016)
@@ -102,7 +104,7 @@ def initialize(context):
 
 ---
 
-つなぎ足
+### つなぎ足
 
 ```python
     # 原油期近つなぎ足
@@ -116,7 +118,7 @@ def initialize(context):
 このオブジェクトを使って，ロール日などを気にしなくても，ほしい先物データにアクセスできる．
 
 ---
-ヒストリカルデータ取得
+### ヒストリカルデータ
 
 ```python
     cl_price = data.history(context.my_future,
@@ -131,7 +133,7 @@ def initialize(context):
 
 
 ---
-current contract
+### current contract
 
 今日現在の先物のコントラクトを取得する
 
@@ -144,11 +146,12 @@ cl_contract = data.current(context.my_future, 'contract')
 ---
 注意：
 
-ヒストリカルデータを取得する時→ `continuous_future` オブジェクト
-現在価格取得や注文を行う時→ `data.current' に'contract'を渡して，コントラクトオブジェクトを作り，このオブジェクトを該当の関数に渡す．
++ ヒストリカルデータを取得する時→ `continuous_future` オブジェクト
++ 現在価格取得や注文を行う時→ `data.current` に `contract` を渡して，コントラクトオブジェクトを作り，このオブジェクトを該当の関数に渡す．
+
 
 ---
-現在価格取得
+### 現在価格取得
 
 ```python
  cl_contract = data.current(context.my_future, 'contract')
@@ -157,7 +160,7 @@ cl_contract = data.current(context.my_future, 'contract')
 
 
 ---
-注文
+### 注文
 
 先物を一枚注文する時：
 
@@ -172,23 +175,15 @@ cl_contract = data.current(context.my_future, 'contract')
 + Quantopianでは，`order_optimal_portfolio` が推奨されているが今回は使わない．しかし，将来的には必ずこのオーダー関数を使う必要が出てくるので，気になる方は，[order_optimal_portfolio](https://www.quantopian.com/help#api-order-optimal-portfolio) / [Optimize API](https://www.quantopian.com/help#optimize-api) を参照．
 
 ---
-ロギング
+### ロギング
 
 `log.info(msg)` : `error`, `warn`, `debug`
 
 `print`文も使える．
 
----
-
-
 
 ---
-
-
----
-
----
-### バックテスト結果の見方 Build Algorithm
+## バックテスト結果の見方 Build Algorithm
 
 1. スタート，エンド，想定元本
 1. **US Futures** を指定
@@ -196,22 +191,20 @@ cl_contract = data.current(context.my_future, 'contract')
 1. Build Algorithm 押下 →　文法エラー等がなければ，結果が出力される
 
 ---
-### Full Backtest
+## Full Backtest
 
 **Run Full Backtest** 押下
 
 
 ---
-### Tear Sheet
+## Tear Sheet
 ---
-### Future Algorithm クラッシュスプレッド
+## Future Algorithm クラッシュスプレッド
 ---
-### カレンダースプレッド
----
-### その他
+## カレンダースプレッド
 
-
-### function docs
+---
+## DOCS
 
 `schedule_function(func,
                    date_rule=date_rule,
