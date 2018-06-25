@@ -106,15 +106,24 @@ def my_rebalance(context, data):
 ---
 ### 基本編
 
-+ `order_target(context.my_future, 1)` ロング
-+ `order_target(context.my_future, -1)` ショート
-+ `order_target(context.my_future, 0)` クローズ
+先物を一枚注文する時：
 
-> Quantopianでは，`order_optimal_portfolio` が推奨されているが，今回は使わない．しかし，将来的には必ずこのオーダー関数を使う必要が出てくるので，気になる方は，[order_optimal_portfolio](https://www.quantopian.com/help#api-order-optimal-portfolio) / [Optimize API](https://www.quantopian.com/help#optimize-api) を参照して下さい．
++ ロング `order_target(context.my_future, 1)`
++ ショート `order_target(context.my_future, -1)`
++ クローズ `order_target(context.my_future, 0)`
 
+注意
+
++ https://www.quantopian.com/help#api-order-methods
++ Quantopianでは，`order_optimal_portfolio` が推奨されているが今回は使わない．しかし，将来的には必ずこのオーダー関数を使う必要が出てくるので，気になる方は，[order_optimal_portfolio](https://www.quantopian.com/help#api-order-optimal-portfolio) / [Optimize API](https://www.quantopian.com/help#optimize-api) を参照．
 
 ---
 ### バックテスト結果の見方 Build Algorithm
+
+1. スタート，エンド，想定元本
+1. **US Futures** を指定
+![Screenshot from 2018-05-16 14-30-59.png](https://qiita-image-store.s3.amazonaws.com/0/14019/5cb465ac-b6c9-aa01-a862-dec001a1cb6f.png)
+
 ---
 ### Full Backtest
 ---
