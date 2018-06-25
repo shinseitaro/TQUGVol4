@@ -52,10 +52,12 @@ def initialize(context):
 ### 基本編
 
 注意② **【重要】** グローバル変数は必ず `context` の属性としてつくる
-+ ダメな例
-```python
 
-my_future = future_symbol("CLF17")
+ダメな例
+
+```python
+my_future = future_symbol("CLF17") #←ダメゼッタイ！
+
 def initialize(context):
     ## 原油２０１７年１月限 (10/01/2016~12/20/2016)
     schedule_function(my_rebalance, 
@@ -63,7 +65,8 @@ def initialize(context):
                       time_rule=time_rules.market_open(hours=1))
 ```  
 ---
-### 先物編
+### 基本編
+
 ```python
 def my_rebalance(context, data):
     cl_price = data.history(context.my_future, 
@@ -78,17 +81,34 @@ def my_rebalance(context, data):
 + bar_count: int. `frequency` で`1d`をした場合は，過去n日分．`1m`をした場合は，過去n分分．
 + frequency:　日足 = `1d`, 分足 = `1m`　のいずれか
 
+---
+
+### 基本編
+
 **注意**
 + data.historyで取得したヒストリカルデータの最新のデータは，データを取ったタイミングのデータ．
   + 2017-03-16 10:30AM に `frequency = '1d'`, `fields ='price'`,`bar_count = 4`, で取得した場合，
 
 |AAAA|BBBB|CCCC
-|---|---|---
+---|---|---|---
 2017-03-13 16:00|6.64|10.98|6.94
 2017-03-14 16:00|10.45|7.62|8.57
 2017-03-15 16:00|9.84|5.96|3.26
 2017-03-16 10:30|7.42|2.40|4.26
 
+---
+### 基本編
+
+`log.info(msg)` : `error`, `warn`, `debug`
+
+---
+### 基本編
+
+`order_target(context.my_future, 1)`
+`order_target(context.my_future, -1)`
+`order_target(context.my_future, 0)`
+
+> Quantopianでは，`order_optimal_portfolio` が推奨されているが，今回は使わない．しかし，将来的には必ずこのオーダー関数を使う必要が出てくるので，気になる方は，[order_optimal_portfolio](https://www.quantopian.com/help#api-order-optimal-portfolio) / [Optimize API](https://www.quantopian.com/help#optimize-api) を参照して下さい．
 
 
 ---
