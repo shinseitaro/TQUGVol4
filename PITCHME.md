@@ -4,7 +4,7 @@ shinseitaro
 ---
 ### 自己紹介
 
-[しんせいたろう🐷(@shinseitaro)](https://twitter.com/shinseitaro "しんせいたろう🐷(@shinseitaro)さん | Twitter")
+[しんせいたろう(@shinseitaro)](https://twitter.com/shinseitaro)
 
 個人トレーダー
 
@@ -43,9 +43,26 @@ def initialize(context):
     schedule_function(my_rebalance, 
                       date_rule=date_rules.every_day(), 
                       time_rule=time_rules.market_open(hours=1))
-
-
 ```
+注意：
+1. `def initialize(context)` は，バックテストスタート時にまず実行される関数．アルゴリズムの設定や変数の作成などはココで行う．
+  + 銘柄設定
+  + スケジュール
+  + トレードフラグ等
+  
+1. <font color=red>【重要】</font>グローバル変数は必ず `context` の属性としてつくる
+  + ダメな例
+```python
+
+my_future = future_symbol("CLF17")
+def initialize(context):
+    ## 原油２０１７年１月限 (10/01/2016~12/20/2016)
+    schedule_function(my_rebalance, 
+                      date_rule=date_rules.every_day(), 
+                      time_rule=time_rules.market_open(hours=1))
+```  
+
+
 ---
 ### 先物編
 ---
