@@ -75,6 +75,7 @@ def my_rebalance(context, data):
                             frequency = '1d')
 ```
 `data.history(symbols, fields, bar_count, frequency)`: 
+
 + ヒストリカルデータ取得．データは引数によって， `pd.Series` `pd.DataFrame` `pd.Panel`のいずれか 
 + symbols: 銘柄，もしくは銘柄リスト．
 + fields: フィールド，もしくはそのリスト．`price`, `open`, `high`, `low`, `close`, `volume`．複数選択可．
@@ -87,9 +88,9 @@ def my_rebalance(context, data):
 
 **注意**
 + data.historyで取得したヒストリカルデータの最新のデータは，データを取ったタイミングのデータ．
-  + 2017-03-16 10:30AM に `frequency = '1d'`, `fields ='price'`,`bar_count = 4`, で取得した場合，
++ 2017-03-16 10:30AM に `frequency = '1d'`, `fields ='price'`,`bar_count = 4`, で取得した場合，
 
-|AAAA|BBBB|CCCC
+時刻|AAAA|BBBB|CCCC
 ---|---|---|---
 2017-03-13 16:00|6.64|10.98|6.94
 2017-03-14 16:00|10.45|7.62|8.57
@@ -97,6 +98,7 @@ def my_rebalance(context, data):
 2017-03-16 10:30|7.42|2.40|4.26
 
 ---
+
 ### 基本編
 
 `log.info(msg)` : `error`, `warn`, `debug`
@@ -104,9 +106,9 @@ def my_rebalance(context, data):
 ---
 ### 基本編
 
-`order_target(context.my_future, 1)`
-`order_target(context.my_future, -1)`
-`order_target(context.my_future, 0)`
++ `order_target(context.my_future, 1)` ロング
++ `order_target(context.my_future, -1)` ショート
++ `order_target(context.my_future, 0)` クローズ
 
 > Quantopianでは，`order_optimal_portfolio` が推奨されているが，今回は使わない．しかし，将来的には必ずこのオーダー関数を使う必要が出てくるので，気になる方は，[order_optimal_portfolio](https://www.quantopian.com/help#api-order-optimal-portfolio) / [Optimize API](https://www.quantopian.com/help#optimize-api) を参照して下さい．
 
