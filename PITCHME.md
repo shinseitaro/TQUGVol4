@@ -124,10 +124,8 @@ def my_rebalance(context, data):
 
 1. スタート，エンド，想定元本
 1. **US Futures** を指定
-
-![Screenshot from 2018-05-16 14-30-59.png](https://qiita-image-store.s3.amazonaws.com/0/14019/5cb465ac-b6c9-aa01-a862-dec001a1cb6f.png)
-
-+ 文法エラー等がなければ，結果が出力される
+  ![Screenshot from 2018-05-16 14-30-59.png](https://qiita-image-store.s3.amazonaws.com/0/14019/5cb465ac-b6c9-aa01-a862-dec001a1cb6f.png)
+1. Build Algorithm 押下 →　文法エラー等がなければ，結果が出力される
 
 ---
 ### Full Backtest
