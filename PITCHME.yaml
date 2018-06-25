@@ -11,5 +11,6 @@ transition : none
 # css
 theme-override: css/PITCHME.css
 # logo
-logo : assets/account_small.jpg
+#logo : assets/account_small.jpg
+logo : https://pbs.twimg.com/profile_images/859934315957940226/V_jr2zRn_400x400.jpg
 
