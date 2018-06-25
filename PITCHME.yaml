@@ -11,5 +11,5 @@ transition : none
 # css
 theme-override: css/PITCHME.css
 # logo
-logo : assets/logo.png
+logo : assets/account_small.jpg
 
