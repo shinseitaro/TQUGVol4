@@ -8,5 +8,8 @@ slide-number: true
 layout : top-left
 # 遷移方法
 transition : none
-#css
+# css
 theme-override: css/PITCHME.css
+# logo
+logo : assets/logo.png
+
