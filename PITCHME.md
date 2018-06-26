@@ -6,13 +6,12 @@ shinseitaro
 
 [しんせいたろう(@shinseitaro)](https://twitter.com/shinseitaro)
 
-個人トレーダー
+#### 個人トレーダー
++ VIF ETF など
 
----
-## コミュニティ
-
-  + 主催：Tokyo Quantopian User Group / 月刊フィントーク / モグモグDjango
-  + スタッフ：GtugGirls / オプション勉強会
+#### コミュニティ
++ 主催：Tokyo Quantopian User Group / 月刊フィントーク / モグモグDjango
++ スタッフ：GtugGirls / オプション勉強会
 
 ---
 ## 今日の予定
