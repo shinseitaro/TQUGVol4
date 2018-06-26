@@ -1,4 +1,34 @@
-
-.h3 { 
-    font-size: small;
+.reveal code {
+    font-family: monospace;
+    text-transform: none;
+    font-size: 12pt;
 }
+
+.reveal li {
+    font-family: monospace;
+    text-transform: none;
+    font-size: 12pt;
+}
+
+.reveal h2 {
+  font-size: 1.4em;
+  border-bottom: 1px solid #eee;
+}
+
+.reveal h3 {
+  font-size: 1.3em;
+}
+
+.reveal h4 {
+  font-size: 1.2em;
+}
+
+.reveal h5 {
+  font-size: 1em;
+}
+
+.reveal h6 {
+  font-size: 1em;
+  color: #777;
+}
+
