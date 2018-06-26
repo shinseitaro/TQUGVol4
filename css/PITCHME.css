@@ -9,3 +9,8 @@
     text-transform: none;
     font-size: 12pt;
 }
+
+.reveal h2 {
+  font-size: 1.4em;
+  border-bottom: 1px solid #eee;
+}
