@@ -37,10 +37,16 @@ shinseitaro
   + クラッシュスプレッド
   + カレンダースプレッド
   + その他
+
 ---
 ## 資料
 
 [http://bit.ly/TQUG-004](http://bit.ly/TQUG-004)
+
+## quantopianとは
+
+Frequently Asked Questions - FAQ - https://www.quantopian.com/faq
+
 
 ---
 ## Quantopian Algorithmの書き方 基本編
@@ -48,7 +54,10 @@ shinseitaro
 [ここにClone先のリンクを張る．]()
 
 Quantopianで利用できる先物とそのヒストリカルデータは，
-[Continuous Future Data Lifespans](https://goo.gl/KbFxjx) で確認して下さい．
+[Continuous Future Data Lifespans](https://goo.gl/KbFxjx)
+[available-futures](https://www.quantopian.com/help#available-futures)
+で確認して下さい．
+
 
 
 
@@ -168,10 +177,31 @@ cl_contract = data.current(context.my_future, 'contract')
 + クローズ `order_target(context.my_future, 0)`
 
 ---
-注意
+### 注文
+
+ポートフォリオに対して何％ホールドするか：
+
+`opt.TargetWeights` 説明書く
+
+```python
+
+target_weight = {}
+target_weight[sym1] = -0.1
+target_weight[sym2] = 0.1
+
+order_optimal_portfolio(
+    opt.TargetWeights(target_weight),
+    constraints=[]
+        )
+```
+
+---
+
+### 注意
 
 + https://www.quantopian.com/help#api-order-methods
-+ Quantopianでは，`order_optimal_portfolio` が推奨されているが今回は使わない．しかし，将来的には必ずこのオーダー関数を使う必要が出てくるので，気になる方は，[order_optimal_portfolio](https://www.quantopian.com/help#api-order-optimal-portfolio) / [Optimize API](https://www.quantopian.com/help#optimize-api) を参照．
++ Quantopianでは，`order_optimal_portfolio` が推奨されている．
++ [order_optimal_portfolio](https://www.quantopian.com/help#api-order-optimal-portfolio) / [Optimize API](https://www.quantopian.com/help#optimize-api) を参照．
 
 ---
 ### ロギング
@@ -194,14 +224,183 @@ cl_contract = data.current(context.my_future, 'contract')
 
 **Run Full Backtest** 押下
 
- [Improved Backtest Analysis](https://www.quantopian.com/posts/improved-backtest-analysis)
++ 結果はQuantopianが[Quantopian Contest](https://www.quantopian.com/contest)用に開発したもの．
++ リターンやリスク等をオサレに表示してくれる．
++ 詳しくは，こちら→ [Improved Backtest Analysis](https://www.quantopian.com/posts/improved-backtest-analysis)
 
 ---
-## Tear Sheet
+## Full Backtest 詳細
+
+### Risk
++ Leverage 資本金に対してポジションの額（毎日ベース） End-of-day gross leverage. A measure comparing position value to capital base.
++ Turnover アセットに対して投資資金額の比率．（63日移動平均） Turnover represents the rate at which assets are being bought and sold within the portfolio. The value displayed is the rolling 63-day mean turnover.
++ Beta To SPY 自分のポートフォリオのリターンとSPYのリターンの相関関係（6ヶ月移動BETA)．6-month rolling beta to SPY. Trailing beta measures the correlation between the portfolio's overall return stream and the returns of SPY.
++ Position Concentration ポートフォリオの中で1番比率の高い投資対象がポートフォリオの中でどのくらいの比率になっているか．（毎日ベース） End-of-day position concentration. The percentage of the algorithm's portfolio invested in its most-concentrated asset.
++ Net Dollar Exposure ポートフォリオ中のロングとショートのポジション比率
+
+### Performance
++ Total Return バックテストスタートからエンドまでのリターン The total percentage return of the portfolio from the start to the end of the backtest.
++ Sharp リターンを標準偏差で割ったもの（6ヶ月移動）
++ Max Drawdown The largest peak-to-trough drop in the portfolio's history.
++ Volatility
+
+### Activity
++ position 毎日のポジション
++ transaction トレードログ
++ Logs 取引中に出したログ
++ Code この full backtest で使用したコードのスナップショット．
+
+### Notebook
++ jupyter notebook
++ 最初のセルを実行すると，一分くらいでTear Sheet が作成される
++ tear sheet を見て，アルゴリズムの改良を考える
++ 作った tear sheet は https://www.quantopian.com/research にストラテジー名と実行時刻とハッシュキーで格納されるので，いつでも確認できる．
+
 ---
 ## Future Algorithm クラッシュスプレッド
+
++ [Crack spread-Oil01.ipynb](https://github.com/drillan/quantopian/blob/master/driller/Crack_spread-Oil01.ipynb) の説明
++ https://www.quantopian.com/algorithms/5b3335b53ef854003ea5f25c
++ 'CL'(Light Sweet Crude Oil), 'HO'(NY Harbor USLD Futures (Heating Oil)), 'XB'(RBOB Gasoline Futures), 'NG'(Natural Gas)のヒストリカルデータを取得
++ 全ペアを作成して，限月毎に割合を算出
+
+### 特徴を見てみる
+
++ offset 4 (5限月) の HO/XB や CL/XB あたりが何かアヤシイ
++ とくに HO/XB は1の周りをウロウロしているのでコードも簡単に書けそうな予感．
++ （コード説明，ビルドテスト）
+
+
+```python
+"""
+Tokyo Quantopian User Group handson Vol4
+strategy4.py
+アルゴリズムその4：クラックスプレッド
+https://github.com/drillan/quantopian/blob/master/driller/Crack_spread-Oil01.ipynb
+
+2015/1/1−2018/6/1
+
+"""
+import pandas as pd
+from quantopian.algorithm import order_optimal_portfolio
+import quantopian.optimize as opt
+from zipline.utils.calendars import get_calendar
+
+def initialize(context):
+    sym1 = 'HO'
+    sym2 = 'XB'
+
+    context.sym1 = continuous_future(sym1, roll='calendar', offset=3)
+    context.sym2 = continuous_future(sym2, roll='calendar', offset=3)
+
+    # 標準偏差をはかる日数
+    context.std_term = 20
+    # ホールドする日数（アルゴリズムでは使っていない，カウントだけして，利用出来るようにしておく）
+    context.holding_days = 0
+    # 満期日までの残存期間を指定（これもアルゴリズムでは使っていない）
+    context.n_days_before_expired = 5
+    # フラグ
+    context.long_spread = False
+    context.short_spread = False
+
+    schedule_function(my_rebalance)
+    schedule_function(my_record)
+
+def get_ratio(context, data):
+    hist = data.history([context.sym1, context.sym2],
+                        fields ='price',
+                        bar_count = context.std_term,
+                        frequency = '1d')
+
+    ratio = hist[context.sym1] / hist[context.sym2]
+    std = ratio.std()
+    return ratio[-1] + std
+
+def is_near_expiration(contract, n):
+    # .expiration_date このコントラクトの満期日を取得
+    return (contract.expiration_date - get_datetime()).days < n
+
+def get_my_position(cpp):
+    l = list()
+    for k, v in cpp.iteritems():
+        d = {'symbol': k.symbol,
+             'amount': v.amount,
+             'average value': v.cost_basis,
+             'last_sale_price': v.last_sale_price,
+             'current value': v.last_sale_price*v.amount*k.multiplier,
+             'multiplier':k.multiplier,
+             'PL': (v.last_sale_price/v.cost_basis-1)*v.amount*k.multiplier,
+            # 'exp date': k.expiration_date.strftime("%Y%m%d")
+            }
+        l.append(d)
+    df = pd.DataFrame(l)
+    df = df.set_index('symbol')
+    log.info(df)
+    return df
+
+def my_rebalance(context, data):
+
+    # もしポジションを持っている場合は，ログ出力．（ここはアルゴリズムには不要）
+    cpp = context.portfolio.positions
+    if cpp:
+        df = get_my_position(cpp)
+        log.info('PL: {}'.format(df['PL'].sum()))
+    else:
+        log.info("No position")
+
+    # target_weight
+    target_weight = {}
+
+    # 今日のコントラクトを取得
+    contract_sym1 = data.current(context.sym1, 'contract')
+    contract_sym2 = data.current(context.sym2, 'contract')
+    # 今日のRatioを取得
+    context.ratio = get_ratio(context, data)
+
+    # ポジションクローズ１
+    if (context.ratio < 1.0) and context.long_spread:
+        target_weight[contract_sym1] = 0
+        target_weight[contract_sym2] = 0
+        context.holding_days = 0
+        context.long_spread = False
+
+    # ポジションクローズ2
+    elif (context.ratio > 1) and context.short_spread:
+        target_weight[contract_sym1] = 0
+        target_weight[contract_sym2] = 0
+        context.holding_days = 0
+        context.short_spread = False
+
+    # ショートポジション注文
+    elif context.ratio > 1.1:
+        target_weight[contract_sym1] = -0.5
+        target_weight[contract_sym2] = 0.5
+        context.long_spread = True
+        context.holding_days = context.holding_days + 1
+
+    # elif context.ratio < 0.96:
+    #     target_weight[contract_sym1] = 0.5
+    #     target_weight[contract_sym2] = -0.5
+    #     context.short_spread = True
+    #     context.holding_days = context.holding_days + 1
+
+    if target_weight:
+        order_optimal_portfolio(
+            opt.TargetWeights(target_weight),
+            constraints=[]
+        )
+
+def my_record(context, data):
+    record(ratio=context.ratio)
+
+```
+
+
 ---
 ## カレンダースプレッド
+
+### 特徴を見てみる
+
 
 ---
 ## DOCS
@@ -295,6 +494,15 @@ symbolの書き方
 + assets の現在価格や，コントラクトを返す．価格は，実際の取引価格．
 + assets: `continuous_future` オブジェクト．もしくはそのリスト．
 + fields: 'price', 'last_traded', 'open', 'high', 'low', 'close', 'volume', 'contract' のいずれか．もしくは複数入ったリスト．
+
+
+
+---
+参照
+
+[Quantopian Futures API Tutorial](https://www.quantopian.com/posts/quantopian-futures-api-tutorial)
+[Continuous Future Data Lifespans](https://goo.gl/KbFxjx)
+[available futures](https://www.quantopian.com/help#available-futures)
 
 
 
