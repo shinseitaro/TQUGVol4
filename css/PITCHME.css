@@ -8,6 +8,7 @@
 
 .reveal pre code {
     font-family: monospace;
+    font-color: #000000;
     background-color: #eee;
     padding: .1em .4em;
     font-size: 1.5em;
