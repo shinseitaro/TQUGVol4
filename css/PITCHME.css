@@ -10,6 +10,11 @@
     font-size: 12pt;
 }
 
+.reveal h1 {
+  font-size: 1.5em;
+}
+
+
 .reveal h2 {
   font-size: 1.4em;
   border-bottom: 1px solid #eee;
