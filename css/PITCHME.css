@@ -1,17 +1,16 @@
 .reveal code {
     font-family: monospace;
-    text-transform: none;
-    background-color: grey;
+    background-color: #eee;
+    padding: .1em .4em;
     order-radius: 7px;
     font-size: 1.0em;
 }
 
 .reveal pre code {
     font-family: monospace;
-    text-transform: none;
-    background-color: grey;
-    order-radius: 7px;
-    font-size: 2.0em;
+    background-color: #eee;
+    padding: .1em .4em;
+    font-size: 1.5em;
 }
 
 .reveal li {
