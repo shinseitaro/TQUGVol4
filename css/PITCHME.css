@@ -35,6 +35,9 @@
   font-size: 1.0em;
   text-decoration: underline;
   padding-bottom: 5px;
+  border-bottom:1px solid;
+  padding-bottom:2px;     
+    
 }
 
 .reveal h4 {
