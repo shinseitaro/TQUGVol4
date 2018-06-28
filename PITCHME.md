@@ -7,9 +7,11 @@ shinseitaro
 [しんせいたろう(@shinseitaro)](https://twitter.com/shinseitaro)
 
 #### 個人トレーダー
+
 + VIX ETF など
 
 #### コミュニティ
+
 + 主催：Tokyo Quantopian User Group / 月刊フィントーク / モグモグDjango
 + スタッフ：GtugGirls / オプション勉強会
 
@@ -59,47 +61,35 @@ shinseitaro
 
 ```python
 def initialize(context):
-
-    # 原油期近つなぎ足
-    context.my_future = continuous_future(
-        'CL',
-        offset=0, # 限月．期近＝0，2番限＝1，3番限=2，・・・
-        roll='calendar', # ロールするタイミング
-        adjustment='mul' # アジャスト方法
-    )
-    schedule_function(my_rebalance1,
-                      date_rule=date_rules.every_day(),
-                      time_rule=time_rules.market_open(hours=1))
-    schedule_function(my_record,
-                      date_rule=date_rules.every_day(),
-                      time_rule=time_rules.market_open(hours=1))
-
-    context.ratio = None
-
+    ．．．
 ```
-
-+ すべてのアルゴリズムに必須関数．バックテストスタート時に最初に実行される．
++ 必須関数．バックテスト開始時に最初に実行
 + 全体の設定を行う．
     + 銘柄設定
     + スケジュール設定
-    + アルゴリズム全体で使う変数作成等
+    + アルゴリズム全体で使う変数作成など
 
 ---
 
 #### `context`
 
-すべての変数は，`context` の属性として作る．
+グローバル変数は作ってはいけない．
+関数間で使い回しする変数は必ず，`context` の属性として作る．
+
+**OK例**
+
+```python
+def initialize(context):
+    ・・・
+    context.ratio = None
+```
 
 **NG例**
 
 ```python
-# context.ratio ではなくグローバルに ratio という変数を用意する
-
 ratio = None
-
 def initialize(context):
-    〜〜〜
-
+    ・・・
 ```
 
 
@@ -118,12 +108,9 @@ schedule_function(my_rebalance1, # 実行したい関数名
 
 ### 先物オブジェクト
 
-評価したい先物オブジェクトを作り，dataにアクセスする．
++ `continuous_future()`: つなぎ足先物
 
-`continuous_future()`: つなぎ足先物
-
-`future_symbol()`: 一代足先物
-
++ `future_symbol()`: 一代足先物
 
 ---
 
@@ -138,7 +125,8 @@ context.my_future = continuous_future(
     )
 ```
 
-このオブジェクトを使ってヒストリカルデータにアクセスしたり，バックテストの日のターゲットのコントラクトを取得したりする．
+このオブジェクトを使ってヒストリカルデータにアクセスしたり，
+各バックテスト日のターゲットのコントラクトを取得したりする．
 
 ---
 
@@ -155,7 +143,8 @@ context.my_future = future_symbol("CLF17")
 ### ヒストリカルデータ
 
 ```python
-price = data.history(context.my_future, # 先物オブジェクト
+price = data.history(
+    context.my_future, # 先物オブジェクト
     fields ='price',  # フィールド
     bar_count = 2, # 何個取るか
     frequency = '1d' # 日足
@@ -172,10 +161,11 @@ price = data.history(context.my_future, # 先物オブジェクト
 ### data.current
 
 バックテストが走っているその日の情報を取得する．取得出来るデータは
-+ コントラクト
-+ 価格
-+ 出来高
+    + コントラクト
+    + 価格
+    + 出来高
 
+---
 #### contract
 
 ```python
@@ -196,15 +186,7 @@ data.current(context.my_future, 'price')
 
 
 ---
-#### 混乱するので注意しましょう
 
-+ ヒストリカルデータを取得する時→ `continuous_future` オブジェクト
-+ 今日のコントラクトを取得する時→ data.current(context.my_future, 'contract')
-+ 現在価格を取得する時→⇑で作ったコントラクトを`data.current` に渡す
-+ 現在価格取得や注文を行う時→ `data.current` に `contract` を渡して，コントラクトオブジェクトを作り，このオブジェクトを該当の関数に渡す．
-
-
----
 ### 注文
 
 #### 先物を一枚注文する時：
@@ -229,9 +211,7 @@ else:
 #### ポートフォリオに対して指定比率持つように注文
 
 ```python
-
 ## def my_rebalance2 の中にある
-
 target_weights = dict()
 
 if context.ratio < -0.01:
@@ -253,7 +233,7 @@ if target_weights:
 
 ---
 
-#### 注意
+#### 注文方法について
 
 + https://www.quantopian.com/help#api-order-methods
 + Quantopianでは，`order_optimal_portfolio` が推奨されている．
@@ -266,10 +246,10 @@ if target_weights:
 log.info("order short %s" % context.ratio )
 ```
 
-`log.info(msg)`．その他レベルはDOCS参照
+    + `log.info(msg)`．その他レベルはDOCS参照
+    + `print`文も使える．
 
-`print`文も使える．
-
+---
 ### その他
 
 `context.portfolio.positions ` ：ポジションを持っている場合，辞書型でポートフォリオ情報を返す．
@@ -280,14 +260,14 @@ log.info("order short %s" % context.ratio )
 
 ### Build Algorithm
 
-+ 文法チェックと簡単な結果を表示
+文法チェックと簡単な結果を表示
 
-1. スタート，エンド，初期設定資金額
-1. **US Futures** を指定
+    1. スタート，エンド，初期設定資金額
+    1. **US Futures** を指定
 
-  ![Screenshot from 2018-05-16 14-30-59.png](https://qiita-image-store.s3.amazonaws.com/0/14019/5cb465ac-b6c9-aa01-a862-dec001a1cb6f.png)
+      ![Screenshot from 2018-05-16 14-30-59.png](https://qiita-image-store.s3.amazonaws.com/0/14019/5cb465ac-b6c9-aa01-a862-dec001a1cb6f.png)
 
-1. Build Algorithm 押下
+    1. Build Algorithm 押下
 
 ---
 ### Full Backtest
@@ -306,18 +286,21 @@ log.info("order short %s" % context.ratio )
 + Position Concentration ポートフォリオの中で1番比率の高い投資対象がポートフォリオの中でどのくらいの比率になっているか．（毎日ベース） End-of-day position concentration. The percentage of the algorithm's portfolio invested in its most-concentrated asset.
 + Net Dollar Exposure ポートフォリオ中のロングとショートのポジション比率
 
+---
 ### Performance
 + Total Return バックテストスタートからエンドまでのリターン The total percentage return of the portfolio from the start to the end of the backtest.
 + Sharp リターンを標準偏差で割ったもの（6ヶ月移動）
 + Max Drawdown The largest peak-to-trough drop in the portfolio's history.
 + Volatility
 
+---
 ### Activity
 + position 毎日のポジション
 + transaction トレードログ
 + Logs 取引中に出したログ
 + Code この full backtest で使用したコードのスナップショット．
 
+---
 ### Notebook
 + jupyter notebook
 + 最初のセルを実行すると，一分くらいでTear Sheet が作成される
@@ -333,6 +316,8 @@ log.info("order short %s" % context.ratio )
 + 'CL'(Light Sweet Crude Oil), 'HO'(NY Harbor USLD Futures (Heating Oil)), 'XB'(RBOB Gasoline Futures), 'NG'(Natural Gas)のヒストリカルデータを取得
 + 全ペアを作成して，限月毎に割合を算出
 
+
+---
 ### 特徴を見てみる
 
 + offset 4 (5限月) の HO/XB や CL/XB あたりが何かアヤシイ
