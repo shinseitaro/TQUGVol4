@@ -7,7 +7,7 @@ shinseitaro
 [しんせいたろう(@shinseitaro)](https://twitter.com/shinseitaro)
 
 #### 個人トレーダー
-+ VIF ETF など
++ VIX ETF など
 
 #### コミュニティ
 + 主催：Tokyo Quantopian User Group / 月刊フィントーク / モグモグDjango
@@ -17,26 +17,20 @@ shinseitaro
 ## 今日の予定
 
 1. Quantopian Algorithmの書き方
-  + 基本編
-    + `initialize`
-    + `context`
-    + `schedule`
-    + `future_symbol`
-    + `continuous_future`
-    + `data.current`
-    + `data.history`
-    + contract
-    + `log`
-    + `order_target`
+
+    基本的な文法とアルゴリズムを書くときの注意など
 
 2. バックテスト結果の見方
-  + Build Algorithm
-  + Full Backtest
-  + Tear Sheet
+
+    + Build Algorithm
+    + Full Backtest
+    + Tear Sheet
+
 3. Future Algorithm：
-  + クラッシュスプレッド
-  + カレンダースプレッド
-  + その他
+
+    + クラッシュスプレッド
+    + カレンダースプレッド
+    + その他
 
 ---
 ## 資料
@@ -45,159 +39,221 @@ shinseitaro
 
 ## quantopianとは
 
-Frequently Asked Questions - FAQ - https://www.quantopian.com/faq
++ 何してる会社？
++ どうやって儲けてるの？
++ コンテスト？
 
+参照 [Frequently Asked Questions - FAQ - ](https://www.quantopian.com/faq)
 
 ---
 ## Quantopian Algorithmの書き方 基本編
 
-[ここにClone先のリンクを張る．]()
-
-Quantopianで利用できる先物とそのヒストリカルデータは，
-[Continuous Future Data Lifespans](https://goo.gl/KbFxjx)
-[available-futures](https://www.quantopian.com/help#available-futures)
-で確認して下さい．
-
-
-
++ [説明用のアルゴリズムをクローン]()
++ 利用出来る先物一覧
+    + [available-futures](https://www.quantopian.com/help#available-futures)
+    + [Continuous Future Data Lifespans](https://goo.gl/KbFxjx)
++ 今回使った関数等のドキュメントは，この資料の最後のDOCSにまとめていますのでご利用下さい．
 
 ---
-### def initialize(context)
-
-バックテストスタート時に最初に実行される関数
-
-全体の設定を行う．
-+ 銘柄設定
-+ スケジュール設定
-+ アルゴリズム全体で使う変数作成
-+ その他
-
----
-**【重要】** グローバル変数は必ず `context` の属性としてつくる
-
-ダメな例
+### initialize(context)
 
 ```python
-my_future = future_symbol("CLF17") #←ダメゼッタイ！
 def initialize(context):
-    ## 原油２０１７年１月限 (10/01/2016~12/20/2016)
-    schedule_function(my_rebalance,
+
+    # 原油期近つなぎ足
+    context.my_future = continuous_future(
+        'CL',
+        offset=0, # 限月．期近＝0，2番限＝1，3番限=2，・・・
+        roll='calendar', # ロールするタイミング
+        adjustment='mul' # アジャスト方法
+    )
+    schedule_function(my_rebalance1,
                       date_rule=date_rules.every_day(),
                       time_rule=time_rules.market_open(hours=1))
+    schedule_function(my_record,
+                      date_rule=date_rules.every_day(),
+                      time_rule=time_rules.market_open(hours=1))
+
+    context.ratio = None
+
 ```
+
++ すべてのアルゴリズムに必須関数．バックテストスタート時に最初に実行される．
++ 全体の設定を行う．
+    + 銘柄設定
+    + スケジュール設定
+    + アルゴリズム全体で使う変数作成等
+
+---
+
+#### `context`
+
+すべての変数は，`context` の属性として作る．
+
+**NG例**
+
+```python
+# context.ratio ではなくグローバルに ratio という変数を用意する
+
+ratio = None
+
+def initialize(context):
+    〜〜〜
+
+```
+
+
 ---
 ### スケジューラー
 
-```schedule_function()```
-
-必ず，`initialize` 内で定義．引数説明は最後のDoc参照
-
----
-
-`future_symbol` と `continuous_future`
-
-評価したい先物のオブジェクトを作ると，そのオブジェクトを利用して，簡単に先物価格を取得したり，注文したりできる．
-
-`future_symbol`: 一代足先物
-`continuous_future`: つなぎ足先物
-
----
-
-### 一代足
-
 ```python
-    ## 原油２０１７年１月限 (10/01/2016~12/20/2016)
-    context.my_future = future_symbol("CLF17")
+schedule_function(my_rebalance1, # 実行したい関数名
+    date_rule=date_rules.every_day(), # 日付ルール
+    time_rule=time_rules.market_open(hours=1)) # 時間ルール
 ```
+
+必ず，`initialize` 内で定義．
+
+---
+
+### 先物オブジェクト
+
+評価したい先物オブジェクトを作り，dataにアクセスする．
+
+`continuous_future()`: つなぎ足先物
+
+`future_symbol()`: 一代足先物
+
 
 ---
 
 ### つなぎ足
 
 ```python
-    # 原油期近つなぎ足
-    context.my_future = continuous_future('CL',
-                                          offset=0, # 限月．期近＝0，2番限＝1，3番限=2，・・・
-                                          roll='calendar', # ロールするタイミング
-                                          adjustment='mul' # アジャスト方法
-                                         )
+context.my_future = continuous_future(
+    'CL', # 先物のrow symbol
+    offset=0, # 限月．期近＝0，2番限＝1，3番限=2，・・・
+    roll='calendar', # ロールするタイミング
+    adjustment='mul' # アジャスト方法
+    )
 ```
 
-このオブジェクトを使って，ロール日などを気にしなくても，ほしい先物データにアクセスできる．
+このオブジェクトを使ってヒストリカルデータにアクセスしたり，バックテストの日のターゲットのコントラクトを取得したりする．
+
+---
+
+### 一代足
+
+```python
+## 原油２０１７年１月限 (10/01/2016~12/20/2016)
+context.my_future = future_symbol("CLF17")
+```
+
+（今回の勉強会では使っていません）
 
 ---
 ### ヒストリカルデータ
 
 ```python
-    cl_price = data.history(context.my_future,
-                            fields ='price',
-                            bar_count = 2,
-                            frequency = '1d')
+price = data.history(context.my_future, # 先物オブジェクト
+    fields ='price',  # フィールド
+    bar_count = 2, # 何個取るか
+    frequency = '1d' # 日足
+    )
+
 ```
 
-第一引数に渡した先物オブジェクトのヒストリカルデータを取得．
+ユーザーは，**自分でつなぎ足をつくることなく**，この方法でヒストリカルデータを取得できる．
 
-ユーザーは，自分でつなぎ足をつくることなく，この方法でヒストリカルデータを取得できる．
+乗り換えの日のデータは，`continuous_future` で指定した `roll`と`adjustment` オプションに従って作成される．
 
 
 ---
-### current contract
+### data.current
 
-今日現在の先物のコントラクトを取得する
+バックテストが走っているその日の情報を取得する．取得出来るデータは
++ コントラクト
++ 価格
++ 出来高
+
+#### contract
 
 ```python
-cl_contract = data.current(context.my_future, 'contract')
+current_contract = data.current(context.my_future, 'contract')
 ```
+
+今日現在のコントラクトを取得する．
 
 このコントラクトを使って，現在価格取得や注文を行う．
 
+#### 現在価格
+
+```python
+data.current(context.my_future, 'price')
+```
+(基本編アルゴリズムでは使っていません）
+
+
+
 ---
-注意：
+#### 混乱するので注意しましょう
 
 + ヒストリカルデータを取得する時→ `continuous_future` オブジェクト
++ 今日のコントラクトを取得する時→ data.current(context.my_future, 'contract')
++ 現在価格を取得する時→⇑で作ったコントラクトを`data.current` に渡す
 + 現在価格取得や注文を行う時→ `data.current` に `contract` を渡して，コントラクトオブジェクトを作り，このオブジェクトを該当の関数に渡す．
 
 
 ---
-### 現在価格取得
-
-```python
- cl_contract = data.current(context.my_future, 'contract')
- current_price = data.current(cl_contract, 'price')
-```
-
-
----
 ### 注文
 
-先物を一枚注文する時：
+#### 先物を一枚注文する時：
 
-+ ロング `order_target(context.my_future, 1)`
-+ ショート `order_target(context.my_future, -1)`
-+ クローズ `order_target(context.my_future, 0)`
+```python
+## def my_rebalance1 の中にある
+
+if context.ratio < -0.01:
+    order_target(current_contract, -1) # ショート
+elif context.ratio > 0.01:
+    order_target(current_contract, 1) # ロング
+else:
+    order_target(current_contract, 0) # クローズ
+```
+
++ `order_target()` に コントラクトと枚数を渡す．
++ 既に指定の枚数を持っている場合は，追加注文はしない．
+
+
 
 ---
-### 注文
-
-ポートフォリオに対して何％ホールドするか：
-
-`opt.TargetWeights` 説明書く
+#### ポートフォリオに対して指定比率持つように注文
 
 ```python
 
-target_weight = {}
-target_weight[sym1] = -0.1
-target_weight[sym2] = 0.1
+## def my_rebalance2 の中にある
 
-order_optimal_portfolio(
-    opt.TargetWeights(target_weight),
-    constraints=[]
-        )
+target_weights = dict()
+
+if context.ratio < -0.01:
+    target_weights[current_contract] = -1.0
+elif context.ratio > -0.01:
+    target_weights[current_contract] = 1.0
+else:
+    target_weights[current_contract] = 1.0
+
+if target_weights:
+    order_optimal_portfolio(
+    opt.TargetWeights(target_weights),
+    constraints=[])
 ```
+
++ `target_weights` 辞書（命名は自由）に，対象のコントラクトをポートフォリオに対して何％オーダーするという注文方法．
++ `opt.TargetWeights()`に `target_weights` を渡してオーダー
++ `constraints`は割愛．[参照](https://www.quantopian.com/help#constraints)
 
 ---
 
-### 注意
+#### 注意
 
 + https://www.quantopian.com/help#api-order-methods
 + Quantopianでは，`order_optimal_portfolio` が推奨されている．
@@ -206,30 +262,42 @@ order_optimal_portfolio(
 ---
 ### ロギング
 
-`log.info(msg)` : `error`, `warn`, `debug`
+```python
+log.info("order short %s" % context.ratio )
+```
+
+`log.info(msg)`．その他レベルはDOCS参照
 
 `print`文も使える．
 
+### その他
+
+`context.portfolio.positions ` ：ポジションを持っている場合，辞書型でポートフォリオ情報を返す．
+
 
 ---
-## バックテスト結果の見方 Build Algorithm
+## バックテスト結果の見方
+
+### Build Algorithm
+
++ 文法チェックと簡単な結果を表示
 
 1. スタート，エンド，初期設定資金額
 1. **US Futures** を指定
+
   ![Screenshot from 2018-05-16 14-30-59.png](https://qiita-image-store.s3.amazonaws.com/0/14019/5cb465ac-b6c9-aa01-a862-dec001a1cb6f.png)
-1. Build Algorithm 押下 →　文法エラー等がなければ，結果が出力される
+
+1. Build Algorithm 押下
 
 ---
-## Full Backtest
+### Full Backtest
 
-**Run Full Backtest** 押下
-
-+ 結果はQuantopianが[Quantopian Contest](https://www.quantopian.com/contest)用に開発したもの．
++ [Quantopian Contest](https://www.quantopian.com/contest)用に開発.
 + リターンやリスク等をオサレに表示してくれる．
 + 詳しくは，こちら→ [Improved Backtest Analysis](https://www.quantopian.com/posts/improved-backtest-analysis)
 
 ---
-## Full Backtest 詳細
+### Full Backtest 詳細
 
 ### Risk
 + Leverage 資本金に対してポジションの額（毎日ベース） End-of-day gross leverage. A measure comparing position value to capital base.
@@ -257,6 +325,7 @@ order_optimal_portfolio(
 + 作った tear sheet は https://www.quantopian.com/research にストラテジー名と実行時刻とハッシュキーで格納されるので，いつでも確認できる．
 
 ---
+
 ## Future Algorithm クラッシュスプレッド
 
 + [Crack spread-Oil01.ipynb](https://github.com/drillan/quantopian/blob/master/driller/Crack_spread-Oil01.ipynb) の説明
@@ -269,131 +338,6 @@ order_optimal_portfolio(
 + offset 4 (5限月) の HO/XB や CL/XB あたりが何かアヤシイ
 + とくに HO/XB は1の周りをウロウロしているのでコードも簡単に書けそうな予感．
 + （コード説明，ビルドテスト）
-
-
-```python
-"""
-Tokyo Quantopian User Group handson Vol4
-strategy4.py
-アルゴリズムその4：クラックスプレッド
-https://github.com/drillan/quantopian/blob/master/driller/Crack_spread-Oil01.ipynb
-
-2015/1/1−2018/6/1
-
-"""
-import pandas as pd
-from quantopian.algorithm import order_optimal_portfolio
-import quantopian.optimize as opt
-from zipline.utils.calendars import get_calendar
-
-def initialize(context):
-    sym1 = 'HO'
-    sym2 = 'XB'
-
-    context.sym1 = continuous_future(sym1, roll='calendar', offset=3)
-    context.sym2 = continuous_future(sym2, roll='calendar', offset=3)
-
-    # 標準偏差をはかる日数
-    context.std_term = 20
-    # ホールドする日数（アルゴリズムでは使っていない，カウントだけして，利用出来るようにしておく）
-    context.holding_days = 0
-    # 満期日までの残存期間を指定（これもアルゴリズムでは使っていない）
-    context.n_days_before_expired = 5
-    # フラグ
-    context.long_spread = False
-    context.short_spread = False
-
-    schedule_function(my_rebalance)
-    schedule_function(my_record)
-
-def get_ratio(context, data):
-    hist = data.history([context.sym1, context.sym2],
-                        fields ='price',
-                        bar_count = context.std_term,
-                        frequency = '1d')
-
-    ratio = hist[context.sym1] / hist[context.sym2]
-    std = ratio.std()
-    return ratio[-1] + std
-
-def is_near_expiration(contract, n):
-    # .expiration_date このコントラクトの満期日を取得
-    return (contract.expiration_date - get_datetime()).days < n
-
-def get_my_position(cpp):
-    l = list()
-    for k, v in cpp.iteritems():
-        d = {'symbol': k.symbol,
-             'amount': v.amount,
-             'average value': v.cost_basis,
-             'last_sale_price': v.last_sale_price,
-             'current value': v.last_sale_price*v.amount*k.multiplier,
-             'multiplier':k.multiplier,
-             'PL': (v.last_sale_price/v.cost_basis-1)*v.amount*k.multiplier,
-            # 'exp date': k.expiration_date.strftime("%Y%m%d")
-            }
-        l.append(d)
-    df = pd.DataFrame(l)
-    df = df.set_index('symbol')
-    log.info(df)
-    return df
-
-def my_rebalance(context, data):
-
-    # もしポジションを持っている場合は，ログ出力．（ここはアルゴリズムには不要）
-    cpp = context.portfolio.positions
-    if cpp:
-        df = get_my_position(cpp)
-        log.info('PL: {}'.format(df['PL'].sum()))
-    else:
-        log.info("No position")
-
-    # target_weight
-    target_weight = {}
-
-    # 今日のコントラクトを取得
-    contract_sym1 = data.current(context.sym1, 'contract')
-    contract_sym2 = data.current(context.sym2, 'contract')
-    # 今日のRatioを取得
-    context.ratio = get_ratio(context, data)
-
-    # ポジションクローズ１
-    if (context.ratio < 1.0) and context.long_spread:
-        target_weight[contract_sym1] = 0
-        target_weight[contract_sym2] = 0
-        context.holding_days = 0
-        context.long_spread = False
-
-    # ポジションクローズ2
-    elif (context.ratio > 1) and context.short_spread:
-        target_weight[contract_sym1] = 0
-        target_weight[contract_sym2] = 0
-        context.holding_days = 0
-        context.short_spread = False
-
-    # ショートポジション注文
-    elif context.ratio > 1.1:
-        target_weight[contract_sym1] = -0.5
-        target_weight[contract_sym2] = 0.5
-        context.long_spread = True
-        context.holding_days = context.holding_days + 1
-
-    # elif context.ratio < 0.96:
-    #     target_weight[contract_sym1] = 0.5
-    #     target_weight[contract_sym2] = -0.5
-    #     context.short_spread = True
-    #     context.holding_days = context.holding_days + 1
-
-    if target_weight:
-        order_optimal_portfolio(
-            opt.TargetWeights(target_weight),
-            constraints=[]
-        )
-
-def my_record(context, data):
-    record(ratio=context.ratio)
-
-```
 
 
 ---
