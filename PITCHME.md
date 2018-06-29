@@ -50,6 +50,17 @@ shinseitaro
 参照： [Frequently Asked Questions](https://www.quantopian.com/faq)
 
 ---
+
+## Quantopianがユーザに提供しているもの
+
++ バックテスト
++ リサーチ
++ ヒストリカルデータ（株価，ファンダメンタル）
++ 分析ツール
++ データは一部をのぞき，無料
+    + [Quantopian Data](https://www.quantopian.com/data)
+
+---
 ## Quantopian Algorithmの書き方 基本編
 
 + [説明用のアルゴリズムをクローン]()
