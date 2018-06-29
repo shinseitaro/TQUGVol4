@@ -37,7 +37,7 @@ shinseitaro
 ---
 ## 資料
 
-# [http://bit.ly/TQUG-004](http://bit.ly/TQUG-004)
+### [Tokyo Quantopian User Group Vol4 Handson Algorithm](https://www.quantopian.com/posts/tokyo-quantopian-user-group-vol4-handson-algorithm)
 
 ---
 
