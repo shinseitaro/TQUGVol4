@@ -41,7 +41,7 @@ shinseitaro
 
 ---
 
-## quantopianとは
+## Quantopianとは
 
 + クラウド上で数量分析ツールを提供するボストンのFund
 + 成績の良いアルゴリズムをFundで運用．作者にReturnの数パーセントを支払う．
