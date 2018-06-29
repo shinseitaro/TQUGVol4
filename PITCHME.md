@@ -37,15 +37,17 @@ shinseitaro
 ---
 ## 資料
 
-[http://bit.ly/TQUG-004](http://bit.ly/TQUG-004)
+# [http://bit.ly/TQUG-004](http://bit.ly/TQUG-004)
+
+---
 
 ## quantopianとは
 
-+ 何してる会社？
-+ どうやって儲けてるの？
-+ コンテスト？
++ クラウド上で数量分析ツールを提供するボストンのFund
++ 成績の良いアルゴリズムをFundで運用．作者にReturnの数パーセントを支払う．
++ 定期的にコンテストを開催．[Getting Capital Allocations](https://www.quantopian.com/allocation)
 
-参照 [Frequently Asked Questions - FAQ - ](https://www.quantopian.com/faq)
+参照： [Frequently Asked Questions](https://www.quantopian.com/faq)
 
 ---
 ## Quantopian Algorithmの書き方 基本編
@@ -160,10 +162,13 @@ price = data.history(
 ---
 ### data.current
 
-バックテストが走っているその日の情報を取得する．取得出来るデータは
-    + コントラクト
-    + 価格
-    + 出来高
+バックテストが走っているその日の情報を取得する．
+
+取得出来るデータは
+
++ コントラクト
++ 価格
++ 出来高
 
 ---
 #### contract
@@ -262,12 +267,12 @@ log.info("order short %s" % context.ratio )
 
 文法チェックと簡単な結果を表示
 
-    1. スタート，エンド，初期設定資金額
-    1. **US Futures** を指定
+1. スタート，エンド，初期設定資金額
+1. **US Futures** を指定
 
-      ![Screenshot from 2018-05-16 14-30-59.png](https://qiita-image-store.s3.amazonaws.com/0/14019/5cb465ac-b6c9-aa01-a862-dec001a1cb6f.png)
+![Screenshot from 2018-05-16 14-30-59.png](https://qiita-image-store.s3.amazonaws.com/0/14019/5cb465ac-b6c9-aa01-a862-dec001a1cb6f.png)
 
-    1. Build Algorithm 押下
+1. Build Algorithm 押下
 
 ---
 ### Full Backtest
@@ -295,6 +300,7 @@ log.info("order short %s" % context.ratio )
 
 ---
 ### Activity
+
 + position 毎日のポジション
 + transaction トレードログ
 + Logs 取引中に出したログ
@@ -430,8 +436,11 @@ symbolの書き方
 参照
 
 [Quantopian Futures API Tutorial](https://www.quantopian.com/posts/quantopian-futures-api-tutorial)
+
 [Continuous Future Data Lifespans](https://goo.gl/KbFxjx)
+
 [available futures](https://www.quantopian.com/help#available-futures)
+
 
 
 
