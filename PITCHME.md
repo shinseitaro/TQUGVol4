@@ -57,7 +57,7 @@ shinseitaro
 + リサーチ
 + ヒストリカルデータ（株価，ファンダメンタル）
 + 分析ツール
-+ データは一部をのぞき，無料
++ データ無料（一部有料のファンダメンタルデータあり）
     + [Quantopian Data](https://www.quantopian.com/data)
 
 ---
