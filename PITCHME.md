@@ -251,8 +251,8 @@ if target_weights:
 log.info("order short %s" % context.ratio )
 ```
 
-    + `log.info(msg)`．その他レベルはDOCS参照
-    + `print`文も使える．
++ `log.info(msg)`．その他レベルはDOCS参照
++ `print`文も使える．
 
 ---
 ### その他
