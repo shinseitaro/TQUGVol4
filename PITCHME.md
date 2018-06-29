@@ -318,7 +318,7 @@ log.info("order short %s" % context.ratio )
 ## Future Algorithm クラッシュスプレッド
 
 + [Crack spread-Oil01.ipynb](https://github.com/drillan/quantopian/blob/master/driller/Crack_spread-Oil01.ipynb) の説明
-+ Tokyo Quantopian User Group Vol4 Handson Algorithm - https://www.quantopian.com/posts/tokyo-quantopian-user-group-vol4-handson-algorithm#5b34cbb7f895fe719c19092c
++ [Tokyo Quantopian User Group Vol4 Handson Algorithm](https://www.quantopian.com/posts/tokyo-quantopian-user-group-vol4-handson-algorithm#5b34cbb7f895fe719c19092c)
 + 'CL'(Light Sweet Crude Oil), 'HO'(NY Harbor USLD Futures (Heating Oil)), 'XB'(RBOB Gasoline Futures), 'NG'(Natural Gas)のヒストリカルデータを取得
 + 全ペアを作成して，限月毎に割合を算出
 
