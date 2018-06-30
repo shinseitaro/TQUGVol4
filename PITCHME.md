@@ -53,21 +53,39 @@ shinseitaro
 
 ## Quantopianがユーザに提供しているもの
 
-+ バックテスト
-+ リサーチ
-+ ヒストリカルデータ（株価，ファンダメンタル）
-+ 分析ツール
-+ データ無料（一部有料のファンダメンタルデータあり）
-    + [Quantopian Data](https://www.quantopian.com/data)
++ ヒストリカルデータ（株価，ファンダメンタル. 基本的に無料．一部有料のファンダメンタルデータあり）
++ バックテスト機能
++ リサーチ機能
++ 分析ライブラリ
+　+ [Quantopian Data](https://www.quantopian.com/data)
+
+## 先物データ
+
++ [available-futures](https://www.quantopian.com/help#available-futures)
++ [Continuous Future Data Lifespans](https://goo.gl/KbFxjx)
 
 ---
 ## Quantopian Algorithmの書き方 基本編
 
 + [tokyo-quantopian-user-group-vol4-handson-algorithm](https://www.quantopian.com/posts/tokyo-quantopian-user-group-vol4-handson-algorithm)
-+ 利用出来る先物一覧
-    + [available-futures](https://www.quantopian.com/help#available-futures)
-    + [Continuous Future Data Lifespans](https://goo.gl/KbFxjx)
 + 今回使った関数等のドキュメントは，この資料の最後のDOCSにまとめていますのでご利用下さい．
+
+---
+
+## ストラテジー内容
+
++ 毎朝，前日のクローズと見比べて，前日比 +1.0% 以上であればロング，-1.0％以下であればショート
++ アルゴリズムの説明，ストラテジーに全く根拠無し．
+
+---
+### 必要なライブラリーインポート
+
+```python
+import pandas as pd 
+# 注文時使用
+from quantopian.algorithm import order_optimal_portfolio
+import quantopian.optimize as opt
+```
 
 ---
 ### initialize(context)
@@ -76,34 +94,75 @@ shinseitaro
 def initialize(context):
     ．．．
 ```
-+ 必須関数．バックテスト開始時に最初に実行
-+ 全体の設定を行う．
++ アルゴリズムの初期化や設定を行う必須関数.
++ 定義されていないとエラー `Algorithm must implement initialize(context) method.` 
++ 必ず `initialize(context)`
++ 引数は `context` 一つ
+
++ 関数の中には，
     + 銘柄設定
     + スケジュール設定
-    + アルゴリズム全体で使う変数作成など
+    + 必要な変数を初期化
 
 ---
 
 #### `context`
 
-グローバル変数は作ってはいけない．
-関数間で使い回しする変数は必ず，`context` の属性として作る．
+#####  アルゴリズムのポートフォリオやアカウントの状態を保持
+
++ `context.account`
++ `context.portfolio` 
+
+##### ユーザー定義の属性を追加できる
+
++ `context.my_argument` のように '.' で属性を追加出来る．
+
+こうすることで，他の関数に `context` を引数として渡し，他の関数がその属性にアクセス出来る．
+
+**Quantopianでは，グローバル変数を使うのは避ける**
+
+その代わり，この `context` の属性に情報を設定して，他の関数に渡すようにする．
+
+--- 
 
 **OK例**
 
 ```python
 def initialize(context):
     ・・・
-    context.ratio = None
+    context.myname = "hogehoge"
 ```
 
 **NG例**
 
 ```python
-ratio = None
+myname = hogehoge
 def initialize(context):
     ・・・
 ```
+---
+#### context の説明コード
+
+1. https://www.quantopian.com/algorithms
+1. New Algorithm 
+1. Create New Algorithm で適当な名前（testなど）で作成
+1. 左側のコードは一旦全部削除
+1. 
+```python
+
+def initialize(context):
+    context.myname = "shinseitaro" 
+    schedule_function(say)
+    
+def say(context, data):
+    
+    log.info(context.myname)
+    log.info(dir(context))
+```
+1. スタートストップを短い時間に変える
+1. Build Algorithm 
+
+
 
 
 ---
