@@ -78,7 +78,7 @@ shinseitaro
 + アルゴリズムの説明，ストラテジーに全く根拠無し．
 
 ---
-### 必要なライブラリーインポート
+### 必要なライブラリー
 
 ```python
 import pandas as pd 
@@ -88,7 +88,7 @@ import quantopian.optimize as opt
 ```
 
 ---
-### initialize(context)
+### def initialize(context): 
 
 ```python
 def initialize(context):
@@ -149,6 +149,7 @@ def initialize(context):
 1. 左側のコードは一旦全部削除
 1. スタートストップを短い時間に変える
 1.  
+
 ```python
 
 def initialize(context):
