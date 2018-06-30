@@ -452,6 +452,8 @@ Quantopianがヒストリカルな価格データやファンダメンタルデ�
 ---
 ## DOCS
 
+### schedule_function
+
 `schedule_function(func,
                    date_rule=date_rule,
                    time_rule=time_rule,
@@ -481,6 +483,8 @@ half_days：マーケットが半日しか開いていない日（例；クリ�
 
 ---
 
+### data.history
+
 `data.history(symbols, fields, bar_count, frequency)`:
 
 + ヒストリカルデータ取得．データは引数によって， `pd.Series` `pd.DataFrame` `pd.Panel`のいずれか
@@ -503,6 +507,7 @@ half_days：マーケットが半日しか開いていない日（例；クリ�
 
 
 ---
+### future_symbol
 
 `future_symbol(symbol)`
 
@@ -517,6 +522,7 @@ symbolの書き方
 ![](https://www.quantopian.com/assets/futures_getting_started1_l2_screenshot1-0bc90a54a7e14712bce267e0a7b0bb6e06de3c5ddf302c8102274f687628f68a.png)
 
 ---
+### continuous_future
 
 `continuous_future(root_symbol, offset=0, roll='volume', adjustment='mul')` [参照](https://www.quantopian.com/help#quantopian_research_experimental_continuous_future)
 
@@ -535,6 +541,8 @@ symbolの書き方
 
 
 ---
+
+### data.current
 
 `data.current(assets, fields)`  [参照](https://www.quantopian.com/help#api-data-current)
 
