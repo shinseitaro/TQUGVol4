@@ -147,7 +147,9 @@ def initialize(context):
 1. New Algorithm 
 1. Create New Algorithm で適当な名前（testなど）で作成
 1. 左側のコードは一旦全部削除
-1.  ```python
+1. スタートストップを短い時間に変える
+1.  
+```python
 
 def initialize(context):
     context.myname = "shinseitaro" 
@@ -157,12 +159,12 @@ def say(context, data):
     
     log.info(context.myname)
     log.info(dir(context))
+    
+    order(sid(24),1)
+    log.info(context.account)
+    log.info(context.portfolio)
+    
 ```
-1. スタートストップを短い時間に変える
-1. Build Algorithm 
-
-
-
 
 ---
 ### スケジューラー
