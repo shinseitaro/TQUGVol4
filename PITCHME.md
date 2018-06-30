@@ -243,6 +243,7 @@ price = data.history(
 
 乗り換えの日のデータは，`continuous_future` で指定した `roll`と`adjustment` オプションに従って作成される．
 
+注意：ヒストリカルデータの最新のデータは，data.historyを実行した時に取れる最新データ. 詳細は[こちら](https://github.com/shinseitaro/TQUGVol4/blob/master/PITCHME.md#datahistory-1)
 
 ---
 ### data.current
