@@ -12,8 +12,10 @@ shinseitaro
 
 #### コミュニティ
 
-+ 主催：Tokyo Quantopian User Group / 月刊フィントーク / モグモグDjango
-+ スタッフ：GtugGirls / オプション勉強会
++ [fin-py](https://fin-py.connpass.com/)，[Pythonアルゴリズム勉強会](https://python-algo.connpass.com/)
++ 主催：[Tokyo Quantopian User Group](https://quantopian-tokyo.connpass.com/) / [月刊フィントーク](https://fintalk.connpass.com/) / [モグモグDjango](https://mogumogu-django.connpass.com/)
++ スタッフ：[GTUG Girls](https://gtuggirls.connpass.com/) / オプション勉強会
+
 
 ---
 ## 今日の予定
