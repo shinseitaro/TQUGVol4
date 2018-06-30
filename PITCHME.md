@@ -222,6 +222,10 @@ schedule_function(my_rebalance1, # 実行したい関数名
 
 ### ヒストリカルデータ
 
+#### data 
+
+OHLCVなどのデータや，現在のコントラクトのデータ，次のコントラクトに関するデータ，アセットが取引可能かどうかのデータなど，データにアクセスするためのオブジェクト．
+
 ```python
 price = data.history(
     context.my_future, # 先物オブジェクト
@@ -229,7 +233,6 @@ price = data.history(
     bar_count = 2, # 何個取るか
     frequency = '1d' # 日足
     )
-
 ```
 
 ユーザーは，**自分でつなぎ足をつくることなく**，この方法でヒストリカルデータを取得できる．
