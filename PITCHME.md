@@ -55,10 +55,11 @@ shinseitaro
 
 + ヒストリカルデータ
     + 株価，ファンダメンタル. 基本的に無料．一部有料のファンダメンタルデータあり
+    + [Quantopian Data](https://www.quantopian.com/data)    
 + バックテスト機能
 + リサーチ機能
 + 分析ライブラリ
-    + [Quantopian Data](https://www.quantopian.com/data)
+
 
 ## 先物データ
 
