@@ -415,21 +415,38 @@ Quantopianがヒストリカルな価格データやファンダメンタルデ�
 ### 原油のクラックスプレッドを考える
 
 + 'CL'(Light Sweet Crude Oil), 'HO'(NY Harbor USLD Futures (Heating Oil)), 'XB'(RBOB Gasoline Futures), 'NG'(Natural Gas)のヒストリカルデータを取得
-+ 全ペアを作成して，限月毎に割合を算出
++ 各ペアごと，同じ限月の割合を算出
 
 
 ---
 ### 特徴を見てみる
 
-+ offset 4 (5限月) の HO/XB や CL/XB あたりが何かアヤシイ
++ offset 3 (4限月)やoffset 4 (5限月) の HO/XB や CL/XB あたりが何かアヤシイ
 + とくに HO/XB は1の周りをウロウロしているのでコードも簡単に書けそうな予感．
 + （コード説明，ビルドテスト）
 
+### ストラテジーを書いてみる．
+
++ 投資対象．HOとxbの4限月もしくは5限月
++ 20日分のヒストリカルデータを取得し，HO/XB の比率を取得し，標準偏差を取得．
++ 直近の HO/XB に 標準偏差を足しあわせ，それが1.1より大きい場合は，HOをショート XBをロング
++ 比率が１に戻って来たところでポジションクローズ
 
 ---
 ## カレンダースプレッド
 
++ [Tokyo Quantopian User Group Vol4 Handson Algorithm](https://www.quantopian.com/posts/tokyo-quantopian-user-group-vol4-handson-algorithm#5b35e3c0a6d2980046eb1ed2)
++ 上記と同じ先物４商品のフォワードカーブを表示．
+
 ### 特徴を見てみる
+
++ がーすさんの資料にあった通り，両端と真ん中が逆の方向に動いている事がよくあるのがわかる
+
+### ストラテジーを書いてみる．
+
++ 対象は CL
++ `context.f1`, `context.f2`, `context.f3` という属性を作り，３つの限月の先物オブジェクトを比べる
++ 凹凸があるかどうかは，両端の平均と，真ん中の価格がどの程度違うかで判断．
 
 
 ---
