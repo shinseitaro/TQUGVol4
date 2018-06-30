@@ -531,12 +531,12 @@ symbolの書き方
 + root_symbol: str. 原資産シンボル．利用できる先物は[こちら](https://www.quantopian.com/help#available-futures)
 + offset: int. 限月．期近＝0，2番限＝1，3番限=2，・・・
 + roll: ロールのタイミングを指定．
-    + 'volume' (default) : 次の限月の取引量が期近の取引量を超えた時ロールする．これは，マーケットのトレーダーが次の限月に移ったというアイデアがベースになっている．もし，auto_close_dateまでにこの現象が起きなければ，auto_close_dateがロール日になる．また，ロールはauto_close_dateの７営業日前まで起きない．
-    + 'calendar' : コントラクトがauto_close_dateに達した時にロールする
+    + `volume` (default) : 次の限月の取引量が期近の取引量を超えた時ロールする．これは，マーケットのトレーダーが次の限月に移ったというアイデアがベースになっている．もし，auto_close_dateまでにこの現象が起きなければ，auto_close_dateがロール日になる．また，ロールはauto_close_dateの７営業日前まで起きない．
+    + `calendar` : コントラクトがauto_close_dateに達した時にロールする
 
 + adjustment: アジャスト方法
-    + 'mul' (default): 連続したコントラクトの価格比を価格シリーズに掛けたデータ．
-    + 'add': 連続したコントラクトの価格差を加算したデータ
+    + `mul` (default): 連続したコントラクトの価格比を価格シリーズに掛けたデータ．
+    + `add`: 連続したコントラクトの価格差を加算したデータ
     + None: アジャスト無し
 
 
