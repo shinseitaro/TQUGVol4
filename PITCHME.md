@@ -153,7 +153,7 @@ def initialize(context):
 ```python
 
 def initialize(context):
-    context.myname = "shinseitaro" 
+    context.myname = "hogehoge" 
     schedule_function(say)
     
 def say(context, data):
