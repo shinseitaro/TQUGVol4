@@ -124,7 +124,7 @@ def initialize(context):
 
     こうすることで，他の関数に `context` を引数として渡し，他の関数がその属性にアクセス出来る．
 
-    **Quantopianでは，グローバル変数を使うのは避ける**
+    <font color=red>Quantopianでは，グローバル変数を使うのは避ける</font>
 
     その代わり，この `context` の属性に情報を設定して，他の関数に渡すようにする．
 
