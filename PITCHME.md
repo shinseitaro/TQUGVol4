@@ -53,11 +53,12 @@ shinseitaro
 
 ## Quantopianがユーザに提供しているもの
 
-+ ヒストリカルデータ（株価，ファンダメンタル. 基本的に無料．一部有料のファンダメンタルデータあり）
++ ヒストリカルデータ
+    + 株価，ファンダメンタル. 基本的に無料．一部有料のファンダメンタルデータあり
 + バックテスト機能
 + リサーチ機能
 + 分析ライブラリ
-　+ [Quantopian Data](https://www.quantopian.com/data)
+    + [Quantopian Data](https://www.quantopian.com/data)
 
 ## 先物データ
 
