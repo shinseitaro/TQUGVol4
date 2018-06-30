@@ -72,7 +72,7 @@ shinseitaro
 ## Quantopian Algorithmの書き方 基本編
 
 + [tokyo-quantopian-user-group-vol4-handson-algorithm](https://www.quantopian.com/posts/tokyo-quantopian-user-group-vol4-handson-algorithm)
-+ 今回使った関数等のドキュメントは，この資料の最後のDOCSにまとめていますのでご利用下さい．
++ 今回使った関数等のドキュメントは，この資料の最後の[DOCS](https://github.com/shinseitaro/TQUGVol4/blob/master/PITCHME.md#docs)にまとめていますのでご利用下さい．
 
 ---
 
