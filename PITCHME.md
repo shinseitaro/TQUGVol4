@@ -373,21 +373,22 @@ log.info("order short %s" % context.ratio )
 + Leverage 資本金に対してポジションの額（毎日ベース） End-of-day gross leverage. A measure comparing position value to capital base.
 + Turnover アセットに対して投資資金額の比率．（63日移動平均） Turnover represents the rate at which assets are being bought and sold within the portfolio. The value displayed is the rolling 63-day mean turnover.
 + Beta To SPY 自分のポートフォリオのリターンとSPYのリターンの相関関係（6ヶ月移動BETA)．6-month rolling beta to SPY. Trailing beta measures the correlation between the portfolio's overall return stream and the returns of SPY.
-+ Position Concentration ポートフォリオの中で1番比率の高い投資対象がポートフォリオの中でどのくらいの比率になっているか．（毎日ベース） End-of-day position concentration. The percentage of the algorithm's portfolio invested in its most-concentrated asset.
++ Position Concentration ポートフォリオの中で1番多く保有しているアセットは，ポートフォリオの中で何％保有しているか．（毎日ベース） End-of-day position concentration. The percentage of the algorithm's portfolio invested in its most-concentrated asset.
 + Net Dollar Exposure ポートフォリオ中のロングとショートのポジション比率
 
 ---
 ### Performance
 + Total Return バックテストスタートからエンドまでのリターン The total percentage return of the portfolio from the start to the end of the backtest.
 + Sharp リターンを標準偏差で割ったもの（6ヶ月移動）
-+ Max Drawdown The largest peak-to-trough drop in the portfolio's history.
++ Max Drawdown 
 + Volatility
 
 ---
 ### Activity
 
-+ position 毎日のポジション
-+ transaction トレードログ
++ Position 毎日のポジション
++ Transaction トレードログ
++ Custom Data record() したデータ
 + Logs 取引中に出したログ
 + Code この full backtest で使用したコードのスナップショット．
 
