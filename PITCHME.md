@@ -226,9 +226,13 @@ schedule_function(my_rebalance1, # 実行したい関数名
 
 OHLCVなどのデータや，現在のコントラクトのデータ，次のコントラクトに関するデータ，アセットが取引可能かどうかのデータなど，データにアクセスするためのオブジェクト．
 
+#### `data.history` 
+
+ヒストリカルデータを取得．引数の内容で，pd.Seriese / pd.DataFrame / pd.Panel のいずれかを返す
+
 ```python
 price = data.history(
-    context.my_future, # 先物オブジェクト
+    context.my_future, # 先物インスタンス
     fields ='price',  # フィールド
     bar_count = 2, # 何個取るか
     frequency = '1d' # 日足
