@@ -171,18 +171,6 @@ def say(context, data):
     log.info(context.portfolio)
     
 ```
-
----
-### スケジューラー
-
-```python
-schedule_function(my_rebalance1, # 実行したい関数名
-    date_rule=date_rules.every_day(), # 日付ルール
-    time_rule=time_rules.market_open(hours=1)) # 時間ルール
-```
-
-必ず，`initialize` 内で定義．
-
 ---
 
 ### 先物オブジェクト
@@ -218,7 +206,17 @@ context.my_future = future_symbol("CLF17")
 
 （今回の勉強会では使っていません）
 
+
 ---
+### スケジューラー
+
+```python
+schedule_function(my_rebalance1, # 実行したい関数名
+    date_rule=date_rules.every_day(), # 日付ルール
+    time_rule=time_rules.market_open(hours=1)) # 時間ルール
+```
+---
+
 ### ヒストリカルデータ
 
 ```python
