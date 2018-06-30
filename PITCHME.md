@@ -404,6 +404,16 @@ log.info("order short %s" % context.ratio )
 ## Future Algorithm クラッシュスプレッド
 
 + [Tokyo Quantopian User Group Vol4 Handson Algorithm](https://www.quantopian.com/posts/tokyo-quantopian-user-group-vol4-handson-algorithm#5b34cbb7f895fe719c19092c)
++ ここのNotebookはどりらんさんに作ってもらいました！ありがとうございます．
+
+### Research 機能について
+
+JupyterNnotebook を使って，自分のアイデアを検証出来るツール. 
+Quantopianがヒストリカルな価格データやファンダメンタルデータを無料で用意しているのでそれを使って検証．
+
+
+### 原油のクラックスプレッドを考える
+
 + 'CL'(Light Sweet Crude Oil), 'HO'(NY Harbor USLD Futures (Heating Oil)), 'XB'(RBOB Gasoline Futures), 'NG'(Natural Gas)のヒストリカルデータを取得
 + 全ペアを作成して，限月毎に割合を算出
 
