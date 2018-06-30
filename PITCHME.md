@@ -120,7 +120,7 @@ def initialize(context):
 
 ##### 役割2．ユーザー定義の属性を追加
 
-+ `context.my_argument` のように '.' で属性を追加出来る．
++ `context.my_property` のように '.' で属性を追加出来る．
 
 こうすることで，他の関数に `context` を引数として渡し，他の関数がその属性にアクセス出来る．
 
