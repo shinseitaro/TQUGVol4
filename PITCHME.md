@@ -188,7 +188,7 @@ context.my_future = continuous_future(
     'CL', # 先物のrow symbol
     offset=0, # 限月．期近＝0，2番限＝1，3番限=2，・・・
     roll='calendar', # ロールするタイミング
-    adjustment='mul' # アジャスト方法
+    adjustment=None # アジャスト方法
     )
 ```
 
