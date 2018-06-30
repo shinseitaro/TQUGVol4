@@ -215,6 +215,9 @@ schedule_function(my_rebalance1, # 実行したい関数名
     date_rule=date_rules.every_day(), # 日付ルール
     time_rule=time_rules.market_open(hours=1)) # 時間ルール
 ```
+
+参照：[Scheduling Functions](https://www.quantopian.com/help#ide-schedulefunction)
+
 ---
 
 ### ヒストリカルデータ
