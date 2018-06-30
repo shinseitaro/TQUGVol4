@@ -113,12 +113,12 @@ def initialize(context):
 
 #### `context`
 
-#####  アルゴリズムのポートフォリオやアカウントの状態を保持
+##### 役割1．アルゴリズムのポートフォリオやアカウントの状態を保持
 
 + `context.account`
 + `context.portfolio` 
 
-##### ユーザー定義の属性を追加できる
+##### 役割2．ユーザー定義の属性を追加
 
 + `context.my_argument` のように '.' で属性を追加出来る．
 
