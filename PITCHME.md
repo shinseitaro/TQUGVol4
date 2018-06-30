@@ -147,8 +147,7 @@ def initialize(context):
 1. New Algorithm 
 1. Create New Algorithm で適当な名前（testなど）で作成
 1. 左側のコードは一旦全部削除
-1. 
-```python
+1.  ```python
 
 def initialize(context):
     context.myname = "shinseitaro" 
