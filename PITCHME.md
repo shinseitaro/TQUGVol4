@@ -136,6 +136,10 @@ def initialize(context):
 def initialize(context):
     ・・・
     context.myname = "hogehoge"
+    
+def other_func(context):
+    print context.myname 
+    
 ```
 
 **NG例**
@@ -144,6 +148,10 @@ def initialize(context):
 myname = hogehoge
 def initialize(context):
     ・・・
+
+def other_func():
+    print myname 
+    
 ```
 ---
 #### context の説明コード
