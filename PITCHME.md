@@ -172,7 +172,7 @@ def initialize(context):
 def say(context, data):
     
     log.info(context.myname)
-    log.info(dir(context))
+    log.info(dir(context)) # オブジェクトの属性を確認
     
     order(sid(24),1)
     log.info(context.account)
